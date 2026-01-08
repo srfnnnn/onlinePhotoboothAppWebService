@@ -30,18 +30,17 @@ app.get('/allpackages', async (req,res) => {
         res.json(rows);
     } catch (err) {
         console.error(err);
-        res.status(500).json({message: 'Server error for all appointments'});
+        res.status(500).json({message: 'Server error for all packages'});
     }
 });
 
 //Add new package
 app.post('/addpackages', async (req, res) => {
-    const { card_name, card_pic } = req.body;
+    const { package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos } = req.body;
     try {
         let connection = await mysql.createConnection(dbConfig);
         await connection.execute('INSERT INTO photobooth (package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos]);
     } catch (err) {
-        console.error(err);
         console.error(err);
         res.status(500).json({message: 'Server error - could not add new package' +package_name});
     }
