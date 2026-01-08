@@ -40,6 +40,7 @@ app.post('/addpackages', async (req, res) => {
     try {
         let connection = await mysql.createConnection(dbConfig);
         await connection.execute('INSERT INTO photobooth (package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos]);
+        res.status(201).json({message: 'Package '+package_name+' added successfully'});
     } catch (err) {
         console.error(err);
         res.status(500).json({message: 'Server error - could not add new package' +package_name});
