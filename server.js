@@ -8,7 +8,7 @@ const dbConfig = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: process.env.DB_port,
+    port: process.env.DB_PORT,
     waitForConnections: true,
     connectionLimit: 100,
     queueLimit: 0,
@@ -26,7 +26,7 @@ app.listen(port, () => {
 app.get('/allpackages', async (req,res) => {
     try {
         let connection = await mysql.createConnection(dbConfig);
-        const [rows] = await connection.execute('SELECT * FROM defaultdb.photobooth');
+        const [rows] = await connection.execute('SELECT * FROM photobooth');
         res.json(rows);
     } catch (err) {
         console.error(err);
