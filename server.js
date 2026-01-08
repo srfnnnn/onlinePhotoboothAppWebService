@@ -75,7 +75,7 @@ app.post('/updatepackage/:id', async (req, res) => {
 
 // Delete package using POST
 app.post('/deletepackage/:id', async (req, res) => {
-    const packageId = req.params.id;
+    const id = req.params.id;
 
     try {
         let connection = await mysql.createConnection(dbConfig);
