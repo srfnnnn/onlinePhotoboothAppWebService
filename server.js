@@ -46,3 +46,53 @@ app.post('/addpackages', async (req, res) => {
         res.status(500).json({message: 'Server error - could not add new package' +package_name});
     }
 });
+
+// Update package using POST
+app.post('/updatepackage/:id', async (req, res) => {
+    const packageId = req.params.id;
+    const { package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos } = req.body;
+
+    try {
+        let connection = await mysql.createConnection(dbConfig);
+
+        const [result] = await connection.execute(
+            `UPDATE photobooth 
+             SET package_name = ?, description = ?, duration_hours = ?, backdrop_type = ?, price = ?, props_included = ?, softcopy_photos = ?, print_photos = ?
+             WHERE id = ?`,
+            [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, packageId]
+        );
+
+        if (result.affectedRows === 0) {
+            res.status(404).json({ message: 'Package not found' });
+        } else {
+            res.json({ message: 'Package updated successfully' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error - could not update package' });
+    }
+});
+
+// Delete package using POST
+app.post('/deletepackage/:id', async (req, res) => {
+    const packageId = req.params.id;
+
+    try {
+        let connection = await mysql.createConnection(dbConfig);
+
+        const [result] = await connection.execute(
+            'DELETE FROM photobooth WHERE id = ?',
+            [packageId]
+        );
+
+        if (result.affectedRows === 0) {
+            res.status(404).json({ message: 'Package not found' });
+        } else {
+            res.json({ message: 'Package deleted successfully' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error - could not delete package' });
+    }
+});
+
