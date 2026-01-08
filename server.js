@@ -49,7 +49,7 @@ app.post('/addpackages', async (req, res) => {
 
 // Update package using POST
 app.post('/updatepackage/:id', async (req, res) => {
-    const packageId = req.params.id;
+    const id = req.params.id;
     const { package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos } = req.body;
 
     try {
