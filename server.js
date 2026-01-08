@@ -59,7 +59,7 @@ app.post('/updatepackage/:id', async (req, res) => {
             `UPDATE photobooth 
              SET package_name = ?, description = ?, duration_hours = ?, backdrop_type = ?, price = ?, props_included = ?, softcopy_photos = ?, print_photos = ?
              WHERE id = ?`,
-            [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, packageId]
+            [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, id]
         );
 
         if (result.affectedRows === 0) {
@@ -82,7 +82,7 @@ app.post('/deletepackage/:id', async (req, res) => {
 
         const [result] = await connection.execute(
             'DELETE FROM photobooth WHERE id = ?',
-            [packageId]
+            [id]
         );
 
         if (result.affectedRows === 0) {
