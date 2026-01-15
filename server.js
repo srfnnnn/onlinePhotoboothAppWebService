@@ -36,10 +36,10 @@ app.get('/allpackages', async (req,res) => {
 
 //Add new package
 app.post('/addpackages', async (req, res) => {
-    const { package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos } = req.body;
+    const { package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, booth_pic } = req.body;
     try {
         let connection = await mysql.createConnection(dbConfig);
-        await connection.execute('INSERT INTO photobooth (package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos]);
+        await connection.execute('INSERT INTO photobooth (package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, booth_pic ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, booth_pic]);
         res.status(201).json({message: 'Package '+package_name+' added successfully'});
     } catch (err) {
         console.error(err);
@@ -50,16 +50,16 @@ app.post('/addpackages', async (req, res) => {
 // Update package using POST
 app.post('/updatepackage/:id', async (req, res) => {
     const id = req.params.id;
-    const { package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos } = req.body;
+    const { package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, booth_pic } = req.body;
 
     try {
         let connection = await mysql.createConnection(dbConfig);
 
         const [result] = await connection.execute(
             `UPDATE photobooth 
-             SET package_name = ?, description = ?, duration_hours = ?, backdrop_type = ?, price = ?, props_included = ?, softcopy_photos = ?, print_photos = ?
+             SET package_name = ?, description = ?, duration_hours = ?, backdrop_type = ?, price = ?, props_included = ?, softcopy_photos = ?, print_photos = ?, booth_pic = ?
              WHERE id = ?`,
-            [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, id]
+            [package_name, description, duration_hours, backdrop_type, price, props_included, softcopy_photos, print_photos, booth_pic, id]
         );
 
         if (result.affectedRows === 0) {
